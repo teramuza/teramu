@@ -1,1 +1,5 @@
 ./*/node_module/
+
+server/node_module/
+
+teramusic/node_module/
