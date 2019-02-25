@@ -1,50 +1,31 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- * @lint-ignore-every XPLATJSCOPYRIGHT1
- */
+import React, { Component } from 'react';
+import Player from './src/screens/Contents/Player';
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+export const TRACKS = [
+  {
+    title: 'Lemon',
+    artist: 'Kenshi Yonezu',
+    albumArtUrl: "http://st.cdjapan.co.jp/pictures/l/07/02/SRCL-9749.jpg",
+    audioUrl: "https://teramuza.xyz/assets/about/audio.mp3",
+  },
+  {
+    title: 'Uchiage Hanabi',
+    artist: 'DAOKO x Kenshi Yonezu',
+    albumArtUrl: "http://st.cdjapan.co.jp/pictures/l/01/18/TFCC-89632.jpg",
+    audioUrl: 'http://srv2.dnupload.com/Music/Album/Justin%20Bieber%20-%20Purpose%20(Deluxe%20Version)%20(320)/Justin%20Bieber%20-%20Purpose%20(Deluxe%20Version)%20128/05%20Love%20Yourself.mp3',
+  },
+  {
+    title: 'Himawari',
+    artist: 'MR.CHILDREN',
+    albumArtUrl: 'https://images-na.ssl-images-amazon.com/images/I/51%2B4yaqsrcL.jpg',
+    audioUrl: 'http://dl2.shirazsong.org/dl/music/94-10/CD%201%20-%20Best%20of%202015%20-%20Top%20Downloads/03.%20Drake%20-%20Hotline%20Bling%20.mp3',
+  },
+];
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-type Props = {};
-export default class App extends Component<Props> {
+export default class App extends Component {
   render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-      </View>
-    );
+    return <Player tracks={TRACKS} />
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+
