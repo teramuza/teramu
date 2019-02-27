@@ -17,3 +17,7 @@
 const Route = use('Route')
 
 Route.on('/').render('welcome')
+
+Route.group(() => {
+	Route.post('auth/login', 'AuthController.login').middleware(['guest'])
+}).prefix('api/teramu/v1')

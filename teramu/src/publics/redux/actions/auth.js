@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import '../../../cfg';
+import '../../../config';
 
 
 export const login = (body) => {

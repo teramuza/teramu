@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Alert, AsyncStorage } from 'react-native';
+import { Alert, AsyncStorage, StatusBar } from 'react-native';
 import { Container, Header, Content, Form, Item, Input, Label, Thumbnail, View, Left, Right, Button, Icon, Text } from 'native-base';
 import { connect } from 'react-redux';
 
-// import { login } from '../publics/redux/actions/auth'
+import { login } from '../../publics/redux/actions/auth'
 
 class Login extends Component {
 
@@ -29,19 +29,33 @@ class Login extends Component {
 	render() {
 		return (
 			<Container>
-				<Content>
+			<StatusBar backgroundColor="#282828"/>
+				<Content style={{backgroundColor: '#282828'}}>
 					<View style={{alignItems: 'center', alignContent: 'center', paddingVertical: 30 }}>
-						<Thumbnail avatar source={require('../images/tera.png')} />
+						{/*<Thumbnail avatar source={require('....//images/tera.png')} />*/}
 					</View>
 					<Form>
 						<Item stackedLabel>
-							<Label style={{color: '#212121'}}>Email</Label>
-							<Input onChangeText={(emailInput) => this.setState({emailInput})} placeholder="Silahkan masukkan email anda" style={{fontSize: 13}} placeholderTextColor="#BDBDBD" autoFocus={true} keyboardType="email-address"/>
+							<Label style={{color: '#f0f0f0'}}>Email</Label>
+							<Input 
+								onChangeText={(emailInput) => this.setState({emailInput})} 
+								placeholderTextColor="#969696"   
+								placeholder="Silahkan masukkan email anda" 
+								style={{fontSize: 13, color: '#f0f0f0'}}
+								autoFocus={true} 
+								keyboardType="email-address"
+							/>
 						</Item>
 
 						<Item stackedLabel>
-							<Label style={{color: '#212121'}}>Password</Label>
-							<Input onChangeText={(passwordInput) => this.setState({passwordInput})} secureTextEntry={true} placeholder="Silahkan masukan password anda" placeholderTextColor="#BDBDBD"/>
+							<Label style={{color: '#f0f0f0'}}>Password</Label>
+							<Input 
+								onChangeText={(passwordInput) => this.setState({passwordInput})} 
+								placeholderTextColor="#969696" 
+								style={{color: '#f0f0f0'}}
+								secureTextEntry={true} 
+								placeholder="Silahkan masukan password anda"
+							/>
 						</Item>
 					</Form>
 
@@ -49,18 +63,18 @@ class Login extends Component {
 						{this.buttonInput()}
 						<View style={{paddingTop: 25, flexDirection: 'row' }}>
 							<Left>
-								<Text style={{color: '#2196F3', fontSize: 13}}>Masuk dengan No.HP</Text>
+								<Text style={{color: '#4DB6AC', fontSize: 13}} onPress={()=> this.props.navigation.navigate('register')}>Belum punya akun?</Text>
 							</Left>
 
 							<Right>
-								<Text style={{color: '#2196F3', fontSize: 13}}>Lupa Password</Text>
+								<Text style={{color: '#4DB6AC', fontSize: 13}}>Lupa Password</Text>
 							</Right>
 						</View>
 						<View style={{marginTop: 30 ,paddingTop : 40, paddingHorizontal: 20, height: 50}}>
-							<View style={{borderBottomWidth: 1, borderBottomColor: '#e2e2e2'}}/>
-							<Text style={{position: 'absolute', zIndex: 1, top: 28, left: 138, backgroundColor: '#fff', color: '#aaa', paddingHorizontal: 8, fontSize: 15 }}>Masuk dengan</Text>
+							<View style={{borderBottomWidth: 1, borderBottomColor: '#707070'}}/>
+							<Text style={{position: 'absolute', zIndex: 1, top: 28, left: 138, backgroundColor: '#282828', color: '#969696', paddingHorizontal: 8, fontSize: 15 }}>Masuk dengan</Text>
 						</View>
-						<View style={{flexDirection: 'row', paddingTop: 30, paddingHorizontal: 30, flex: 1}} >
+						{/*<View style={{flexDirection: 'row', paddingTop: 30, paddingHorizontal: 30, flex: 1}} >
 							<View style={{flex : 3, paddingHorizontal: 30}}>
 								<Thumbnail style={{width: 40, height: 40}} avatar source={require('../images/fb.png')}/>
 							</View>
@@ -71,7 +85,7 @@ class Login extends Component {
 								<Thumbnail style={{width: 40, height: 40}}  avatar source={require('../images/line.png')}/>
 							</View>
 
-						</View>
+						</View>*/}
 			        </View>
 				</Content>
 			</Container>
@@ -81,14 +95,14 @@ class Login extends Component {
 	buttonInput() {
 		if(this.state.emailInput === '' || this.state.passwordInput === ''){
 			return(	
-				<Button disabled style={{borderRadius: 25, backgroundColor: '#FFCDD2'}} block>
-					<Text>Masuk</Text>
+				<Button disabled style={{borderRadius: 25, backgroundColor: '#609691'}} block>
+					<Text style={{color: '#444'}}>Masuk</Text>
 				</Button>
 			)
 		}else{
 			return(
-				<Button style={{borderRadius: 25, backgroundColor: '#f95454'}} block onPress={() => this.handleLogin()}>
-					<Text>Masuk</Text>
+				<Button style={{borderRadius: 25, backgroundColor: '#26A69A'}} block onPress={() => this.handleLogin()}>
+					<Text style={{color: '#282828'}}>Masuk</Text>
 				</Button>
 			)
 		}

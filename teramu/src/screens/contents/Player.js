@@ -83,7 +83,9 @@ export default class Player extends Component {
         playInBackground={true}
         repeat={this.state.repeatOn}                // Repeat forever.
         onLoad={this.setDuration.bind(this)}    // Callback when video loads
-        
+        onEnd={
+          (this.state.currentPosition === this.state.totalLength) && this.onForward()
+        }
         onProgress={this.setTime.bind(this)}    // Callback every ~250ms with currentTime
         style={styles.audioElement} />
     );
