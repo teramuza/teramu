@@ -9,11 +9,15 @@ import Video from 'react-native-video';
 
 
 export default class Player extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    header: null,
+  })
+
   constructor(props) {
     super(props);
 
     this.state = {
-      paused: true,
+      paused: this.props.navigation.state.params.paused,
       totalLength: 1,
       currentPosition: 0,
       selectedTrack: 0,
@@ -61,7 +65,7 @@ export default class Player extends Component {
   }
 
   onForward() {
-    if (this.state.selectedTrack < this.props.tracks.length - 1) {
+    if (this.state.selectedTrack < this.props.navigation.state.params.pushData.length - 1) {
       this.refs.audioElement && this.refs.audioElement.seek(0);
       this.setState({ isChanging: true });
       setTimeout(() => this.setState({
@@ -75,26 +79,28 @@ export default class Player extends Component {
   }
 
   render() {
-    const track = this.props.tracks[this.state.selectedTrack];
+    const track = this.props.navigation.state.params.pushData[this.state.selectedTrack];
     const video = this.state.isChanging ? null : (
-      <Video source={{uri: track.audioUrl}} // Can be a URL or a local file.
+      <Video source={{uri: track.source}} // Can be a URL or a local file.
         ref="audioElement"
         paused={this.state.paused}               // Pauses playback entirely.
         playInBackground={true}
+        playWhenInactive={true}
+        ignoreSilentSwitch={"ignore"}
         repeat={this.state.repeatOn}                // Repeat forever.
         onLoad={this.setDuration.bind(this)}    // Callback when video loads
         onEnd={
-          (this.state.currentPosition === this.state.totalLength) && this.onForward()
+          (this.state.currentPosition === this.state.totalLength) ? this.onForward() : null
         }
         onProgress={this.setTime.bind(this)}    // Callback every ~250ms with currentTime
         style={styles.audioElement} />
     );
-
+    const message = `Playing from ${this.props.navigation.state.params.from}`
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
-        <TopPlayer message="Playing From Charts" />
-        <AlbumArt url={track.albumArtUrl} />
+        <TopPlayer message={message} onDownPress={() => this.props.navigation.navigate('home')} />
+        <AlbumArt url={track.artCover} />
         <TrackDetails title={track.title} artist={track.artist} />
         <SeekBar
           onSeek={this.seek.bind(this)}
@@ -105,7 +111,7 @@ export default class Player extends Component {
           onPressRepeat={() => this.setState({repeatOn : !this.state.repeatOn})}
           repeatOn={this.state.repeatOn}
           shuffleOn={this.state.shuffleOn}
-          forwardDisabled={this.state.selectedTrack === this.props.tracks.length - 1}
+          forwardDisabled={this.state.selectedTrack === this.props.navigation.state.params.pushData.length - 1}
           onPressShuffle={() => this.setState({shuffleOn: !this.state.shuffleOn})}
           onPressPlay={() => this.setState({paused: false})}
           onPressPause={() => this.setState({paused: true})}

@@ -11,12 +11,14 @@ class Favorite extends Component<Props> {
     header: null,
   })
   renderItem = ({ item, index }) => (
-    <ListItem key={index} thumbnail style={{borderWidth: 0}}>
+    <ListItem noBorder key={index} thumbnail style={{paddingVertical: 5}}  onPress={()=> this.props.navigation.navigate('player', {pushData : [item],from : 'Paling sering di dengar', paused : false})}>
             <Left>
-                <Thumbnail square source={item.image } />
+                <Thumbnail square source={{uri : item.artCover }}/>
             </Left>
             <Body>
                 <Text style={{fontSize: 14, color: '#f0f0f0'}}>{item.title}</Text>
+                <Text style={{fontSize: 13, color: '#969696'}}>{item.artist}</Text>
+
             </Body>
             <Right>
             </Right>
@@ -43,18 +45,24 @@ class Favorite extends Component<Props> {
                 <Text style={{color: '#f0f0f0', fontSize: 18, fontWeight:'600'}}>Favorit</Text>
             </View>
         </Header>
-
-
         <Content style={{backgroundColor: '#212121'}}>
         <View style={{paddingTop: 20, paddingHorizontal: 100}}>
-                  <Button block style={{backgroundColor: '#26A69A', borderRadius: 50, alignItems: 'center'}}><Text style={{paddingHorizontal: 20}}>PUTAR SEMUA</Text></Button>
+                  <Button block 
+                  style={{backgroundColor: '#26A69A', borderRadius: 50, alignItems: 'center'}}  
+                  onPress={()=> this.props.navigation.navigate('player', {
+                    pushData : this.props.songs.data ,
+                    from : 'semua paling sering di dengar', 
+                    paused : false})}
+                  >
+                    <Text style={{paddingHorizontal: 20}}>PUTAR SEMUA</Text>
+                  </Button>
               </View>
-            <View style={{paddingTop: 20, paddingLeft: 10}}>
-                <Text style={{fontSize: 17, fontWeight: '500', paddingBottom: 10, color: '#f0f0f0'}}>Daftar Lagu Favorit</Text>
+            <View style={{paddingTop: 20, paddingLeft: 15}}>
+                <Text style={{fontSize: 17, fontWeight: '500', paddingBottom: 10, color: '#f0f0f0'}}>Paling sering di dengar</Text>
             </View>
             <List>
               <FlatList
-                data={data}
+                data={this.props.songs.data}
                 keyExtractor={this._keyExtractor}
                 renderItem={this.renderItem}
               />
@@ -69,6 +77,7 @@ class Favorite extends Component<Props> {
 
 const mapStateToProps = (state) => {
   return {
+    songs : state.songs
     
   }
 }

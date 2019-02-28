@@ -85,12 +85,16 @@ const AppTabNavigator = createBottomTabNavigator({
         if (routeName === 'home') {
             iconType = `MaterialCommunityIcons`;
             iconName = `home${focused ? '' : '-outline' }`;
-        } else if (routeName === 'favorite') {
-            iconName = `favorite${focused ? '' : '-border'}`;
-        } else if (routeName === 'search') {
+        } 
+        else if (routeName === 'favorite') {
+            iconType = `MaterialCommunityIcons`;
+            iconName = `bookmark${focused ? '' : '-outline'}`;
+        } 
+        else if (routeName === 'search') {
             iconType = `${focused ? 'FontAwesome' : 'AntDesign'}`;
             iconName = 'search';
-        } else if (routeName === 'profile') {
+        } 
+        else if (routeName === 'profile') {
             iconName = `person${focused ? '' : '-outline'}`;
         }
 
@@ -106,11 +110,16 @@ const AppTabNavigator = createBottomTabNavigator({
         backgroundColor: '#303030',
       }
     },
+    navigationOptions : {
+        header : null,
+    }
 }
 
 )
 
 const AppContents = createStackNavigator({
+    navigator : AppTabNavigator,
+
     player : {
         screen : Player,
         navigationOption: {}
@@ -119,7 +128,6 @@ const AppContents = createStackNavigator({
 
 const AppNavigator = createSwitchNavigator({
     splashScreen : AppSplash,
-    tabNavigator : AppTabNavigator,
     contents : AppContents,
     auth : AppAuth,
 })

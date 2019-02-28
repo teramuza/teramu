@@ -5,10 +5,10 @@
 *-----------------------------------------*/
 
 /*----- connect 2 learn ------*/
-// apiUrl = "http://192.168.0.10:3333/api/teramu/v1"  
+apiUrl = "http://192.168.0.14:3333/api/teramu/v1"  
 
 /*----- connect to learn 2 ------*/
-apiUrl = "http://192.168.1.128:3333/api/teramu/v1" 
+// apiUrl = "http://192.168.1.128:3333/api/teramu/v1" 
 
 /*----- tera.ajaa ------*/
 // apiUrl = "http://192.168.43.93:3333/api/teramu/v1" 

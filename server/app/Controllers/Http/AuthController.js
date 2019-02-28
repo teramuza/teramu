@@ -71,9 +71,14 @@ class AuthController {
           if (check) {
             let user = await User.findBy('email', email)
 
-            Object.assign(check, user.id, user.email)
+            const newData = {
+              id : user.id,
+              email : user.email,
+              token : check.token,
+              refToken : check.refreshToken,
+            }
 
-            return response.json(check)
+            return newData
           }
 
 

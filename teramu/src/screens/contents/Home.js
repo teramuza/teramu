@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { ScrollView, Platform, StyleSheet, FlatList, Image, TouchableWithoutFeedback, Dimensions, StatusBar, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
-import { Container, Content, Left, Body, Right, Card,View, CardItem, Text, Fab, Icon, Badge, Header,Button, Title, Item, Input, List, ListItem, Thumbnail } from 'native-base';
+import { Container, Content, Left, Body, Right, Card,View, CardItem, Text, Fab, Icon, Badge, Header,Button, Title, Item, Input, List, ListItem, Thumbnail, Footer } from 'native-base';
 
-import '../../data'
+import { getSongs } from '../../publics/redux/actions/songs'
 
 type Props = {};
 class Home extends Component<Props> {
@@ -11,6 +11,26 @@ class Home extends Component<Props> {
 	static navigationOptions = ({ navigation }) => ({
 		header: null,
 	})
+
+	constructor(props) {
+	  super(props);
+	
+	  this.state = {
+	  	paused : false,
+	  	isFav : false,
+	  };
+	}
+	async fetchData(){
+		try{
+			const token = await AsyncStorage.getItem('token')
+			await this.props.dispatch(getSongs(token))
+		}
+		catch{
+			this.props.navigation.navigate('login')
+		}
+	}
+	
+
 	renderItem = ({ item, index }) => (
 		<TouchableWithoutFeedback key={index} onPress={()=> this.props.navigation.navigate('Detail', {pushData : index})}>
 			<View style={styles.gridContainer}>
@@ -23,9 +43,9 @@ class Home extends Component<Props> {
 	)
 
 	renderItemHorizontal = ({ item, index }) => (
-	    <TouchableWithoutFeedback key={index} onPress={()=> this.props.navigation.navigate('Detail', {pushData : index})}>
+	    <TouchableWithoutFeedback key={index} onPress={()=> this.props.navigation.navigate('player', {pushData : [item],from : 'Baru Dimainkan', paused : false})}>
 	     	<View style={styles.gridContainerHorizontal}>
-	    		<Image source={{uri : item.albumArtUrl}} style={styles.imageGridHorizontal} style={{height: 130,width: 130}}/>
+	    		<Image source={{uri : item.artCover}} style={styles.imageGridHorizontal} style={{height: 130,width: 130}}/>
 		    	<View style={{paddingHorizontal: 1}}>
 		    		<Text style={styles.titleGridHorizontal}>{item.title}</Text>          
 		    		<Text style={{paddingTop: 1, color: '#969696', textAlign: 'center', fontSize: 11 }}>{item.artist}</Text>          
@@ -63,7 +83,7 @@ class Home extends Component<Props> {
 			        </View>
 
 			        <FlatList
-			            data={track}
+			            data={this.props.songs.data}
 			            keyExtractor={this._keyExtractor}
 			            renderItem={this.renderItemHorizontal}
 			            horizontal={true}
@@ -79,17 +99,48 @@ class Home extends Component<Props> {
 						renderItem={this.renderItem}
 						numColumns={2}
 					/>
+					<View style={{paddingHorizontal: 120, marginVertical: 20}}>
+						<Button block small style={{backgroundColor: '#212121', borderRadius: 50, borderColor: '#828282', borderWidth: 1}}><Text style={{color: '#969696', fontSize: 10}}>LIHAT LAINNYA</Text></Button>
+					</View>
 				</ScrollView>
+				{this.miniPlayer()}
 			</Container>
 		);
 	}
 
+	miniPlayer() {
+		return(
+			<Footer style={{backgroundColor: '#373737'}}>
+				<View style={{flexDirection: 'row', flex : 1, flexWrap: 'wrap', }}>
+					<View style={{flex : 1, alignItems: 'center',marginTop: 15 }}>
+						{this.state.isFav ? 
+							<Icon name="favorite" type="MaterialIcons" style={{color: '#f0f0f0'}}/> 
+							: 
+							<Icon name="favorite-border" type="MaterialIcons" style={{color: '#f0f0f0'}}/> 
+						}
+					</View>
+					<View style={{flex : 6, alignItems: 'center', marginTop: 10}}>
+						<Text style={{color: '#f0f0f0', fontSize: 14}}>Centimental Crisis</Text>
+						<Text style={{color: '#969696', fontSize: 12}}>halca</Text>
+
+					</View>
+					<View style={{flex : 1, alignItems: 'center', marginTop: 15}}> 
+						{this.state.paused ? 
+							<Icon name="play" style={{color: '#f0f0f0'}}/>
+						:
+							<Icon name="pause" style={{color: '#f0f0f0'}}/>
+						}
+					</View>
+				</View>
+			</Footer>
+		)
+	}
 
 }
 
 const mapStateToProps = (state) => {
 	return {
-		
+		songs : state.songs
 	}
 }
 

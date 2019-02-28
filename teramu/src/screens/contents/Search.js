@@ -11,7 +11,7 @@ class Search extends Component<Props> {
     header: null,
   })
   renderItem = ({ item, index }) => (
-    <ListItem key={index} thumbnail>
+    <ListItem key={index} thumbnail noBorder style={{paddingVertical: 5}}>
             <Left>
                 <Thumbnail square source={item.image } />
             </Left>

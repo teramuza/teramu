@@ -4,6 +4,7 @@ import '../../../config';
 
 
 export const login = (body) => {
+	console.warn(apiUrl)
   return{
     type : 'POST_LOGIN',
     payload : axios.post(`${apiUrl}/auth/login`, body)

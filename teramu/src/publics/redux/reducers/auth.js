@@ -1,11 +1,5 @@
 const initialValue = {
-	data : {
-		token : '',
-		userId : '',
-		tokenType : '',
-		message : '',
-		refreshToken : '',
-	},
+	data : {},
 	isLoading : false,
 	isError: false
 }
@@ -22,13 +16,7 @@ export default (state = initialValue, action) => {
 	    	return{
 	    		...state,
 	    		isLoading : false,
-	    		data : {
-	    			token : action.payload.data.token,
-	    			userId : action.payload.data.id,
-	    			tokenType : action.payload.data.type,
-	    			message : action.payload.data.message,
-	    			refreshToken : action.payload.data.refreshToken
-	    		}
+	    		data : action.payload.data,
 	    	}
 
 	    case 'POST_LOGIN_REJECTED':
@@ -48,13 +36,7 @@ export default (state = initialValue, action) => {
 	    	return{
 	    		...state,
 	    		isLoading : false,
-	    		data : {
-	    			token : action.payload.data.token,
-	    			userId : action.payload.data.id,
-	    			tokenType : action.payload.data.type,
-	    			message : action.payload.data.message,
-	    			refreshToken : action.payload.data.refreshToken
-	    		}
+	    		data : action.payload.data,
 	    	}
 
 	    case 'POST_REGIST_REJECTED':

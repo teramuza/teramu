@@ -4,6 +4,7 @@ import { Container, Header, Content, Form, Item, Input, Label, Thumbnail, View, 
 import { connect } from 'react-redux';
 
 import { login } from '../../publics/redux/actions/auth'
+import { getSongs } from '../../publics/redux/actions/songs'
 
 class Login extends Component {
 
@@ -17,14 +18,9 @@ class Login extends Component {
 		this.state = {
 			emailInput : '',
 			passwordInput : '',
-			nextScreen : 'Home',
+			nextScreen : 'home',
 			where : 'login',
 		};
-	}
-
-	componentWillReceiveProps(nextProps) {
-		nextScreen = this.props.navigation.state.params.nextScreen
-		this.setState({nextScreen})
 	}
 
 	render() {
@@ -103,7 +99,7 @@ class Login extends Component {
 			)
 		}else{
 			return(
-				<Button style={{borderRadius: 25, backgroundColor: '#26A69A'}} block onPress={() => this.props.navigation.navigate('home')}>
+				<Button style={{borderRadius: 25, backgroundColor: '#26A69A'}} block onPress={() => this.handleLogin()}>
 					<Text style={{color: '#282828'}}>Masuk</Text>
 				</Button>
 			)
@@ -118,11 +114,8 @@ class Login extends Component {
 		}));
 		const loginInfo = this.props.auth.data
 		if(loginInfo.token){
-
-			await AsyncStorage.setItem('userId', String(loginInfo.userId));
-			await AsyncStorage.setItem('token', loginInfo.token);
-			await AsyncStorage.setItem('refreshToken', loginInfo.refreshToken)
-			
+			await AsyncStorage.setItem('token', loginInfo.token)
+			await this.props.dispatch(getSongs(loginInfo.token))
 			this.props.navigation.navigate(this.state.nextScreen)
 		}
 		else if(loginInfo.message){
