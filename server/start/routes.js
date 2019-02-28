@@ -1,23 +1,37 @@
 'use strict'
 
-/*
-|--------------------------------------------------------------------------
-| Routes
-|--------------------------------------------------------------------------
-|
-| Http routes are entry points to your web application. You can create
-| routes for different URL's and bind Controller actions to them.
-|
-| A complete guide on routing is available here.
-| http://adonisjs.com/docs/4.1/routing
-|
-*/
-
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
-
-Route.on('/').render('welcome')
+// Route.get('/', 'ProductController.index')
 
 Route.group(() => {
+
+	//Product Routes
+	Route.get('products', 'ProductController.index')
+	Route.get('product/:id', 'ProductController.byId')
+	Route.post('product', 'ProductController.input')
+
+
+	//Cart Routes
+	Route.get('orders', 'CartController.index')
+	Route.get('orders/count','CartController.countRow')
+	Route.get('order/:id', 'CartController.byId')
+	Route.post('order', 'CartController.input')
+	Route.patch('order/:id/:qty', 'CartController.qtyCtrl')
+	Route.delete('order/:id', 'CartController.delete')
+	Route.delete('orders', 'CartController.dropAll')
+
+	//costom (Count order)
+	Route.get('cartBy/:key/:val', 'CartController.byKey')
+
+	//auth
+	Route.post('auth/register', 'AuthController.register').middleware(['guest'])
 	Route.post('auth/login', 'AuthController.login').middleware(['guest'])
-}).prefix('api/teramu/v1')
+	Route.post('auth/logout', 'AuthController.revokeUserToken').middleware(['auth'])
+
+	//Profile
+	Route.get('user/:id', 'CustomerController.profile').middleware(['auth'])
+
+	//payment
+	Route.get('payment', 'CustomerController.profile').middleware(['auth'])
+}).prefix('api/v1')

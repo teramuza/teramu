@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, AsyncStorage, StatusBar } from 'react-native';
+import { Alert, AsyncStorage, StatusBar, Image, BackHandler } from 'react-native';
 import { Container, Header, Content, Form, Item, Input, Label, Thumbnail, View, Left, Right, Button, Icon, Text } from 'native-base';
 import { connect } from 'react-redux';
 
@@ -18,6 +18,7 @@ class Login extends Component {
 			emailInput : '',
 			passwordInput : '',
 			nextScreen : 'Home',
+			where : 'login',
 		};
 	}
 
@@ -29,10 +30,11 @@ class Login extends Component {
 	render() {
 		return (
 			<Container>
-			<StatusBar backgroundColor="#282828"/>
+			<StatusBar backgroundColor="#282828" hidden={false}/>
 				<Content style={{backgroundColor: '#282828'}}>
 					<View style={{alignItems: 'center', alignContent: 'center', paddingVertical: 30 }}>
-						{/*<Thumbnail avatar source={require('....//images/tera.png')} />*/}
+						<Image style={{borderRadius: 50, height: 80, width: 80}} source={require('../../assets/img/logo1.png')} />
+						<Text style={{color: '#999', paddingTop: 7, fontSize: 18 }}>t e r a m u</Text>
 					</View>
 					<Form>
 						<Item stackedLabel>
@@ -101,12 +103,13 @@ class Login extends Component {
 			)
 		}else{
 			return(
-				<Button style={{borderRadius: 25, backgroundColor: '#26A69A'}} block onPress={() => this.handleLogin()}>
+				<Button style={{borderRadius: 25, backgroundColor: '#26A69A'}} block onPress={() => this.props.navigation.navigate('home')}>
 					<Text style={{color: '#282828'}}>Masuk</Text>
 				</Button>
 			)
 		}
 	}
+
 
 	async handleLogin(){
 		await this.props.dispatch(login({

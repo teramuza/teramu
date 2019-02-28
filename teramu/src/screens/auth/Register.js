@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Alert, AsyncStorage, StatusBar } from 'react-native';
+import { Alert, AsyncStorage, StatusBar, Image,BackHandler } from 'react-native';
 import { Container, Header, Content, Form, Item, Input, Label, Thumbnail,View, Left, Right, Button,Icon, Text } from 'native-base';
 import { connect } from 'react-redux';
 
 import { register } from '../../publics/redux/actions/auth'
 
-class Login extends Component {
+class Register extends Component {
 
 	static navigationOptions = ({ navigation }) => ({
 		header: null,
@@ -31,7 +31,8 @@ class Login extends Component {
 			<StatusBar backgroundColor="#282828"/>
 				<Content style={{backgroundColor: '#282828'}}>
 					<View style={{alignItems: 'center', alignContent: 'center', paddingVertical: 30 }}>
-						{/*<Thumbnail avatar source={require('../images/tera.png')} />*/}
+						<Image style={{borderRadius: 50, height: 80, width: 80}} source={require('../../assets/img/logo1.png')} />
+						<Text style={{color: '#999', paddingTop: 7, fontSize: 18 }}>t e r a m u</Text>
 					</View>
 					<Form>
 						<Item stackedLabel>
@@ -71,6 +72,16 @@ class Login extends Component {
 							secureTextEntry={true} 
 							style={{fontSize: 13, color: '#f0f0f0'}} 
 							placeholder="Silahkan masukan password anda" 
+							placeholderTextColor="#969696"/>
+						</Item>
+
+						<Item stackedLabel>
+							<Label style={{color: '#f0f0f0'}}>Ulangi Password</Label>
+							<Input 
+							onChangeText={(password) => this.setState({password})} 
+							secureTextEntry={true} 
+							style={{fontSize: 13, color: '#f0f0f0'}} 
+							placeholder="Silahkan ulangi password anda" 
 							placeholderTextColor="#969696"/>
 						</Item>
 					</Form>
@@ -166,4 +177,4 @@ const mapStateToProps = (state) => {
 	}
 }
 
-export default connect(mapStateToProps)(Login)
+export default connect(mapStateToProps)(Register)
